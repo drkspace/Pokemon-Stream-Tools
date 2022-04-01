@@ -71,12 +71,17 @@ class ShinyCounterHandler(PatternMatchingEventHandler):
     def on_modified(self, event):
         if time.time() - self.lastModified < .25:
             return
+
         folder = os.path.dirname(self.fname)
         self.lastModified = time.time()
         nEncounters = self.getEncounters()
 
         p = self.probShiny(nEncounters)
-        pNext = self.probShiny(nEncounters + 1)
+
+        self.textFiles(p, nEncounters, folder)
+        self.plot(p, nEncounters, folder)
+
+    def textFiles(self, p, nEncounters, folder):
         print(
             f'P = {100 * p:.2f}% ({self.oddsStr} base odds) {"(" + str(self.nShines) + " total shines)" if self.nShines > 1 else ""}')
         with open(os.path.join(folder, 'odds.txt'), 'w+') as f:
@@ -102,6 +107,7 @@ class ShinyCounterHandler(PatternMatchingEventHandler):
             else:
                 f.write(f"Gotta get some better luck")
 
+    def plot(self, p, nEncounters, folder):
         self.ax.cla()
         self.ax.plot(self.n, self.probs, label="Bimodal CDF")
         self.ax.hlines([p * 100], xmin=0, xmax=max(self.n), colors="r", label="Current Value", linestyles='dashed')

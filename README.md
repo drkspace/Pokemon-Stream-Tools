@@ -2,7 +2,7 @@
 
 To install:
 
-`pip install pokemon-stream-tools`
+`pip install pokemonStreamTools`
 
 ## Current Programs
 

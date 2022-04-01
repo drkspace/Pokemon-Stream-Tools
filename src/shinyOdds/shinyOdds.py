@@ -1,11 +1,9 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import scipy.stats as stats
 import math
 import matplotlib.pyplot as plt
 import numpy as np
-import functools
 import os
 import datetime
 import time
@@ -14,6 +12,7 @@ import argparse
 from watchdog.observers import Observer
 from watchdog.events import PatternMatchingEventHandler
 from typing import List
+from .calcShiny import probShiny
 
 plt.rcParams.update({'font.size': 22})
 
@@ -63,11 +62,6 @@ class ShinyCounterHandler(PatternMatchingEventHandler):
                 nEncounters = int(f.readline().split(' ')[1])
         return nEncounters
 
-    @functools.lru_cache(maxsize=128)
-    def probShiny(self, nEncounters):
-
-        return 1 - stats.binom.cdf(k=self.nShines - 1, n=nEncounters, p=self.odds)
-
     def on_modified(self, event):
         if time.time() - self.lastModified < .25:
             return
@@ -76,7 +70,7 @@ class ShinyCounterHandler(PatternMatchingEventHandler):
         self.lastModified = time.time()
         nEncounters = self.getEncounters()
 
-        p = self.probShiny(nEncounters)
+        p = probShiny(nEncounters, self.odds, self.nShines)
 
         self.textFiles(p, nEncounters, folder)
         self.plot(p, nEncounters, folder)

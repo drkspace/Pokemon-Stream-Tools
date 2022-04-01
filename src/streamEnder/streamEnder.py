@@ -8,6 +8,7 @@ import argparse
 import os
 import getpass
 
+
 def parse_args():
     parser = argparse.ArgumentParser(description='Time to shiny Hunt.')
     parser.add_argument('encounter_fname', metavar='Encounters.txt', type=str,

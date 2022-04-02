@@ -41,7 +41,7 @@ usage: streamEnder [-h] [--password [PASSWORD]] [--timeout [TIMEOUT]] [--EndStre
                    [--EndStreamName ENDSTREAMNAME]
                    Encounters.txt OBS_IP PORT
 
-Time to shiny Hunt.
+Stream Ender.
 
 positional arguments:
   Encounters.txt        The file location for the number of encounters
@@ -61,3 +61,8 @@ optional arguments:
 ```
 
 You must set up OBS in the way described [here](https://github.com/Elektordi/obs-websocket-py).
+
+
+### Twitch Bot
+A twitch bot for chat commands. 
+Look at the README in the twitch bot folder for more details.

@@ -123,7 +123,8 @@ class ShinyCounterHandler(PatternMatchingEventHandler):
         self.ax.yaxis.set_major_formatter(mtick.PercentFormatter())
 
         plt.tight_layout()
-        plt.savefig(os.path.join(folder, 'encGraph.png'))
+        plt.savefig(os.path.join(folder, 'encGraph_tmp.png'))
+        os.replace(os.path.join(folder, 'encGraph_tmp.png'), os.path.join(folder, 'encGraph.png'))
         os.utime(os.path.join(folder, 'encGraph.png'), (time.time(), time.time()))
         self.ax.cla()
 

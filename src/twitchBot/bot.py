@@ -14,7 +14,9 @@ def parse_arguments():
     return parser.parse_args()
 
 
-def main(args):
+def main(args=None):
+    if args is None:
+        args = parse_arguments()
     bot = Bot(
         # set up the bot
         token=args.token,
@@ -27,6 +29,5 @@ def main(args):
 
 
 if __name__ == "__main__":
-
     args = parse_arguments()
     main(args)

@@ -1,4 +1,4 @@
-from botCommands import Bot
+from .botCommands import Bot
 import argparse
 
 

@@ -10,7 +10,7 @@ import getpass
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='Time to shiny Hunt.')
+    parser = argparse.ArgumentParser(description='Stream Ender.')
     parser.add_argument('encounter_fname', metavar='Encounters.txt', type=str,
                         help='The file location for the number of encounters')
     parser.add_argument('hostname', metavar='OBS_IP', type=str,

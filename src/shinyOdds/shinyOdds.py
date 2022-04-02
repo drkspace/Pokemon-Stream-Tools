@@ -44,7 +44,7 @@ class ShinyCounterHandler(PatternMatchingEventHandler):
         self.fname = args.encounter_fname
         self.patterns[0] = self.fname
         self.n = np.array(range(int(10 * self.nShines / (self.odds))))
-        self.probs = np.array([self.probShiny(_n) for _n in self.n])
+        self.probs = np.array([probShiny(_n, self.odds, self.nShines) for _n in self.n])
         self.comb = np.column_stack((self.n, self.probs))
         self.probs *= 100
 
@@ -67,8 +67,11 @@ class ShinyCounterHandler(PatternMatchingEventHandler):
             return
 
         folder = os.path.dirname(self.fname)
+        try:
+            nEncounters = self.getEncounters()
+        except AttributeError:
+            return
         self.lastModified = time.time()
-        nEncounters = self.getEncounters()
 
         p = probShiny(nEncounters, self.odds, self.nShines)
 

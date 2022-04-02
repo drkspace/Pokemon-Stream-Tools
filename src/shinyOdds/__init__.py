@@ -1,1 +1,1 @@
-from .calcShiny import probShiny
+from .calcShiny import probShiny, findProb

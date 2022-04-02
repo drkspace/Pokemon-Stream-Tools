@@ -28,6 +28,8 @@ optional arguments:
 This will produce 3 files: a plot of your current shiny odds, a text file that has your current odds, and a text file that has the number of encounters until you reach your next percentage milestone. 
 These files are located in the same directory as Encounters.txt.
 
+The Encounters.txt file will be processed with regex to get the first numeric sequence. 
+
 *The proper phrasing is x% of people at N encounters have gotten a shiny. 
 
 ### Steam Ender

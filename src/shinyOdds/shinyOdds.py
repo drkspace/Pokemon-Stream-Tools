@@ -13,6 +13,7 @@ from watchdog.observers import Observer
 from watchdog.events import PatternMatchingEventHandler
 from typing import List
 from .calcShiny import probShiny
+import re
 
 plt.rcParams.update({'font.size': 22})
 
@@ -59,7 +60,8 @@ class ShinyCounterHandler(PatternMatchingEventHandler):
     def getEncounters(self) -> int:
         if os.path.exists(self.fname):
             with open(self.fname, 'r') as f:
-                nEncounters = int(f.readline().split(' ')[1])
+                line = f.readline()
+            nEncounters = int(re.findall(r'[0-9]+', line)[0])
         return nEncounters
 
     def on_modified(self, event):

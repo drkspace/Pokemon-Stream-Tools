@@ -2,7 +2,11 @@ from botCommands import Bot
 import argparse
 
 
-def parse_arguments():
+def parse_arguments()->argparse.Namespace:
+    """
+    Function for parsing the arguments
+    :return: The args passed in
+    """
     parser = argparse.ArgumentParser(description='Twitch Bot.')
     parser.add_argument('token', metavar='oauth:xxx', type=str,
                         help='The twitch authentication token')
@@ -15,6 +19,11 @@ def parse_arguments():
 
 
 def main(args=None):
+    """
+    The main function for the bot
+    :param args: The args from the command line. If none, will fetch the arguments
+    :return:
+    """
     if args is None:
         args = parse_arguments()
     bot = Bot(
@@ -29,5 +38,4 @@ def main(args=None):
 
 
 if __name__ == "__main__":
-    args = parse_arguments()
     main(args)

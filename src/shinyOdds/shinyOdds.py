@@ -83,8 +83,8 @@ class ShinyCounterHandler(PatternMatchingEventHandler):
         :return:
         """
 
-        # Needs to be a quarter of a second after the last call to avoid double triggers
-        if time.time() - self.lastModified < .25:
+        # Needs to be a .75 seconds after the last call to avoid double triggers
+        if time.time() - self.lastModified < .75:
             return
 
         folder = os.path.dirname(self.fname)
@@ -115,8 +115,6 @@ class ShinyCounterHandler(PatternMatchingEventHandler):
         """
         print(
             f'P = {100 * p:.2f}% ({self.oddsStr} base odds) {"(" + str(self.nShines) + " total shines)" if self.nShines > 1 else ""}')
-        with open(os.path.join(folder, 'odds.txt'), 'w+') as f:
-            f.write(f'Current Odds: {100 * p:.2f}%')
 
         if p < .5:
             numToReach = self.comb[:, 0][self.comb[:, 1] > .5][0] - nEncounters
@@ -130,13 +128,24 @@ class ShinyCounterHandler(PatternMatchingEventHandler):
         elif p < .999:
             numToReach = self.comb[:, 0][self.comb[:, 1] > .999][0] - nEncounters
             percToReach = 99.9
-
-        with open(os.path.join(folder, 'next.txt'), 'w+') as f:
-            if p < .999:
-                print(f"Number of encounters until >{percToReach}%: {int(numToReach)}")
-                f.write(f"Number of encounters until >{percToReach}%: {int(numToReach)}")
-            else:
-                f.write(f"Gotta get some better luck")
+        for i in range(10):
+            try:
+                with open(os.path.join(folder, 'odds.txt'), 'w+') as f:
+                    f.write(f'Current Odds: {100 * p:.2f}%')
+                with open(os.path.join(folder, 'next.txt'), 'w+') as f:
+                    if p < .999:
+                        print(f"Number of encounters until >{percToReach}%: {int(numToReach)}")
+                        f.write(f"Number of encounters until >{percToReach}%: {int(numToReach)}")
+                    else:
+                        f.write(f"Gotta get some better luck")
+                break
+            except PermissionError as e:
+                print(f"Error moving file, trying again. Will try at most {10 - i} time(s).")
+        else:
+            print(f"Something is wrong with file permissions (do you have write access to {folder})?")
+            print(f"Exiting Program")
+            import sys
+            sys.exit(1)
 
     def plot(self, p: float, nEncounters: int, folder: str):
         """
@@ -162,9 +171,19 @@ class ShinyCounterHandler(PatternMatchingEventHandler):
         self.ax.yaxis.set_major_formatter(mtick.PercentFormatter())
 
         plt.tight_layout()
-        plt.savefig(os.path.join(folder, 'encGraph_tmp.png'))
-        os.replace(os.path.join(folder, 'encGraph_tmp.png'), os.path.join(folder, 'encGraph.png'))
-        os.utime(os.path.join(folder, 'encGraph.png'), (time.time(), time.time()))
+        for i in range(10):
+            try:
+                plt.savefig(os.path.join(folder, 'encGraph_tmp.png'))
+                os.replace(os.path.join(folder, 'encGraph_tmp.png'), os.path.join(folder, 'encGraph.png'))
+                os.utime(os.path.join(folder, 'encGraph.png'), (time.time(), time.time()))
+                break
+            except PermissionError as e:
+                print(f"Error moving file, trying again. Will try at most {10-i} time(s).")
+        else:
+            print(f"Something is wrong with file permissions (do you have write access to {folder})?")
+            print(f"Exiting Program")
+            import sys
+            sys.exit(1)
         self.ax.cla()
 
 

@@ -8,6 +8,10 @@ class Bot(commands.Bot):
     The twitch bot
     """
 
+    msg = "Want to use the programs I'm using? Overlay items/bots: " \
+          "https://github.com/drkspace/Pokemon-Stream-Tools. The reset bot: " \
+          "https://github.com/brianuuu/AutoController_swsh. "
+
     def __init__(self, *args, **kwargs):
         """
         The constructor for the bot
@@ -93,16 +97,23 @@ class Bot(commands.Bot):
         """
         await ctx.send(f'{ctx.author.name.strip()}, please go to https://bit.ly/3DyFkYh for a list of commands.')
 
+    @commands.command()
+    async def bots(self, ctx: commands.Context):
+        """
+        Send a help message
+        :param ctx: The context of the message that triggered this command
+        :return:
+        """
+        await ctx.send(f'{ctx.author.name.strip()}, {self.msg}')
+
     @routines.routine(hours=3)
     async def repos(self):
         """
         Send a message every 3 hours to the repo for this and the auto controller
         :return:
         """
-        msg = "Want to use the programs I'm using? Overlay items/bots: " \
-              "https://github.com/drkspace/Pokemon-Stream-Tools. The reset bot: " \
-              "https://github.com/brianuuu/AutoController_swsh. "
+
         await self.wait_for_ready()
         channel = self.get_channel(self.channel)
 
-        await channel.send(msg)
+        await channel.send(self.botsMsg)

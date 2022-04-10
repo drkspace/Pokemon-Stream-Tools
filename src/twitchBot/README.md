@@ -13,3 +13,7 @@
   Example:
 
   `!shinyCalc 1/4096 734`
+
+- `!bots`
+
+  Show the links to this repo and the autocontroller repo

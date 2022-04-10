@@ -8,16 +8,16 @@ class Bot(commands.Bot):
     The twitch bot
     """
 
-    botsMsg = "Want to use the programs I'm using? Overlay items/bots: " \
-          "https://github.com/drkspace/Pokemon-Stream-Tools. The reset bot: " \
-          "https://github.com/brianuuu/AutoController_swsh. "
-
     def __init__(self, *args, **kwargs):
         """
         The constructor for the bot
         :param args: args to be passed to the super bot class
         :param kwargs: kwargs to be passed to the super bot class
         """
+        self.botsMsg = "Want to use the programs I'm using? Overlay items/bots: " \
+                       "https://github.com/drkspace/Pokemon-Stream-Tools. The reset bot: " \
+                       "https://github.com/brianuuu/AutoController_swsh. "
+
 
         # I think this is the only way to get the channel name being used
         self.channel = kwargs["initial_channels"][0]

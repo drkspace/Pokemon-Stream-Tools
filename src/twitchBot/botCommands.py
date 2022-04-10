@@ -8,7 +8,7 @@ class Bot(commands.Bot):
     The twitch bot
     """
 
-    msg = "Want to use the programs I'm using? Overlay items/bots: " \
+    botsMsg = "Want to use the programs I'm using? Overlay items/bots: " \
           "https://github.com/drkspace/Pokemon-Stream-Tools. The reset bot: " \
           "https://github.com/brianuuu/AutoController_swsh. "
 
@@ -104,7 +104,7 @@ class Bot(commands.Bot):
         :param ctx: The context of the message that triggered this command
         :return:
         """
-        await ctx.send(f'{ctx.author.name.strip()}, {self.msg}')
+        await ctx.send(f'{ctx.author.name.strip()}, {self.botsMsg}')
 
     @routines.routine(hours=3)
     async def repos(self):
